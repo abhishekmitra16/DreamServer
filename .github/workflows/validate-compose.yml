@@ -22,17 +22,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate main docker-compose.yml
-        run: |
-          echo "Validating dream-server/docker-compose.yml"
-          docker compose -f dream-server/docker-compose.yml config --quiet
+      ## Commented out since there is no main docker compose file anymore
+      # - name: Validate main docker-compose.yml
+      #   run: |
+      #     echo "Validating dream-server/docker-compose.yml"
+      #     docker compose -f dream-server/docker-compose.yml config --quiet
 
-      - name: Validate compose files in dream-server/compose/
+      - name: Validate compose files in dream-server/
         run: |
-          compose_files=$(find dream-server/compose/ -name '*.yml' -type f 2>/dev/null || true)
+          compose_files=$(find dream-server/ -name '*.yml' -type f 2>/dev/null || true)
 
           if [ -z "$compose_files" ]; then
-            echo "No compose files found in dream-server/compose/"
+            echo "No compose files found in dream-server/. Skipping validation."
             exit 0
           fi
 
